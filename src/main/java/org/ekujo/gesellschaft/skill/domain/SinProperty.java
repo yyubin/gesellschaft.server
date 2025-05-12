@@ -1,0 +1,17 @@
+package org.ekujo.gesellschaft.skill.domain;
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Table(name = "sin_property")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+public class SinProperty {
+
+    @Id
+    private Integer id;
+
+    @Column(name = "name", length = 10, nullable = false)
+    private String name;
+}

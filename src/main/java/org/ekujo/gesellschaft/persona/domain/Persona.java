@@ -39,16 +39,19 @@ public class Persona {
     @Column(name = "guard_level")
     private Integer guardLevel;
 
-    @Column(name = "attack_resistance", length = 2)
-    private String attackResistance;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "attack_resistance", length = 10)
+    private ResistanceLevel attackResistance;
 
-    @Column(name = "penetration_resistance", length = 2)
-    private String penetrationResistance;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "penetration_resistance", length = 10)
+    private ResistanceLevel penetrationResistance;
 
-    @Column(name = "batting_resistance", length = 2)
-    private String battingResistance;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "batting_resistance", length = 10)
+    private ResistanceLevel battingResistance;
 
-    @Column(length = 6)
+    @Column(length = 10)
     private String season;
 
     @Column(name = "release_date")
@@ -63,5 +66,5 @@ public class Persona {
     private Integer column16;
 
     @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PersonaTraitKeyword> traits = new ArrayList<>();
+    private List<PersonaTrait> traits = new ArrayList<>();
 }

@@ -4,11 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "persona_trait_keyword")
+@Table(name = "persona_trait")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersonaTraitKeyword {
+public class PersonaTrait {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

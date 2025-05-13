@@ -39,17 +39,8 @@ public class Persona {
     @Column(name = "guard_level")
     private Integer guardLevel;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "attack_resistance", length = 10)
-    private ResistanceLevel attackResistance;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "penetration_resistance", length = 10)
-    private ResistanceLevel penetrationResistance;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "batting_resistance", length = 10)
-    private ResistanceLevel battingResistance;
+    @Embedded
+    private ResistanceSet resistance;
 
     @Column(length = 10)
     private String season;
@@ -58,12 +49,6 @@ public class Persona {
     private LocalDateTime releaseDate;
 
     private Integer mental;
-
-    @Column(name = "column_15")
-    private Integer column15;
-
-    @Column(name = "column_16")
-    private Integer column16;
 
     @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PersonaTrait> traits = new ArrayList<>();

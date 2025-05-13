@@ -40,17 +40,8 @@ public class ActiveSkill {
     @Column(name = "quantity")
     private int quantity;
 
-    @Column(name = "base_power")
-    private int basePower;
-
-    @Column(name = "coin_power")
-    private int coinPower;
-
-    @Column(name = "coin_count")
-    private int coinCount;
-
-    @Column(name = "weight")
-    private int weight;
+    @Embedded
+    private DamageSpec damageSpec;
 
     @Column(name = "attack_level")
     private int attackLevel;

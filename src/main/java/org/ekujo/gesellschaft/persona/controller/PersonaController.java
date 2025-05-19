@@ -31,4 +31,5 @@ public class PersonaController {
         List<PersonaDetailDto> personaDetailDtoList = personaService.getAllPersonaDetails(page, size);
         return ResponseEntity.ok(personaDetailDtoList);
     }
+
 }

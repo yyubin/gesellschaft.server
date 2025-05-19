@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.ekujo.gesellschaft.character.domain.GameCharacter;
 import org.ekujo.gesellschaft.skill.domain.ActiveSkill;
+import org.ekujo.gesellschaft.skill.domain.SinProperty;
 
 @Entity
 @Table(name = "persona")
@@ -56,4 +57,9 @@ public class Persona {
 
     @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ActiveSkill> activeSkills = new ArrayList<>();
+
+    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Keyword> keywords = new ArrayList<>();
+
+
 }

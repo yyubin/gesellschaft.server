@@ -2,6 +2,7 @@ package org.ekujo.gesellschaft.auth.service.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.ekujo.gesellschaft.auth.dto.request.LoginRequest;
 import org.ekujo.gesellschaft.auth.service.AuthService;
 import org.ekujo.gesellschaft.auth.service.CustomUserDetailsService;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
 

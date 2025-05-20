@@ -58,8 +58,5 @@ public class Persona {
     @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ActiveSkill> activeSkills = new ArrayList<>();
 
-    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Keyword> keywords = new ArrayList<>();
-
 
 }

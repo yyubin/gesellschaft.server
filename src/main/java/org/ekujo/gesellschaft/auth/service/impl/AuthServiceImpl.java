@@ -1,6 +1,7 @@
 package org.ekujo.gesellschaft.auth.service.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ekujo.gesellschaft.auth.dto.request.LoginRequest;
@@ -13,7 +14,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,19 +27,30 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
 
-    public HttpStatus login(LoginRequest loginRequest, HttpServletRequest httpRequest) {
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                loginRequest.getUsername(), loginRequest.getPassword()
-        );
+    public HttpStatus login(LoginRequest loginRequest, HttpServletRequest request) {
+        UsernamePasswordAuthenticationToken unauth =
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(), loginRequest.getPassword());
+
         try {
-            Authentication authentication = authenticationManager.authenticate(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            httpRequest.getSession(true);
+            Authentication authResult = authenticationManager.authenticate(unauth);
+            SecurityContext ctx = SecurityContextHolder.createEmptyContext();
+            ctx.setAuthentication(authResult);
+            SecurityContextHolder.setContext(ctx);
+
+            HttpSession session = request.getSession(true);
+            session.setAttribute(
+                    HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+                    ctx
+            );
+
             return HttpStatus.OK;
+
         } catch (BadCredentialsException e) {
             return HttpStatus.UNAUTHORIZED;
         }
     }
+
 
     public void logout(HttpServletRequest request) {
         request.getSession(false).invalidate();

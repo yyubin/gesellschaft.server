@@ -23,8 +23,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
@@ -32,17 +34,24 @@ import java.util.Map;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, UsernamePasswordAuthenticationFilter jsonFilter) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors
+                        .configurationSource(request -> {
+                            CorsConfiguration cfg = new CorsConfiguration();
+                            cfg.setAllowedOrigins(List.of("http://localhost:5173"));
+                            cfg.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
+                            cfg.setAllowedHeaders(List.of("*"));
+                            cfg.setAllowCredentials(true);
+                            cfg.setExposedHeaders(List.of("Set-Cookie"));
+                            return cfg;
+                        })
+                )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/login", "/api/logout").permitAll()
                         .requestMatchers("/api/admin/**").authenticated()
                         .anyRequest().permitAll()
-                )
-                .addFilterAt(jsonFilter, UsernamePasswordAuthenticationFilter.class)
-                .sessionManagement(session -> session
-                        .maximumSessions(1)
                 )
                 .logout(logout -> logout
                         .logoutUrl("/api/logout")
@@ -67,59 +76,59 @@ public class SecurityConfig {
         return new ProviderManager(authProvider);
     }
 
-    @Bean
-    public UsernamePasswordAuthenticationFilter jsonUsernamePasswordAuthenticationFilter(
-            AuthenticationManager authenticationManager, ObjectMapper objectMapper) {
-
-        var filter = new UsernamePasswordAuthenticationFilter() {
-            @Override
-            public Authentication attemptAuthentication(
-                    HttpServletRequest request, HttpServletResponse response) {
-
-                if (request.getContentType() != null &&
-                        request.getContentType().startsWith("application/json")) {
-
-                    try (var is = request.getInputStream()) {
-                        var mapper  = new ObjectMapper();
-                        var dto     = mapper.readValue(is, LoginRequest.class);
-                        var token   = new UsernamePasswordAuthenticationToken(
-                                dto.getUsername(), dto.getPassword());
-
-                        setDetails(request, token);
-                        return this.getAuthenticationManager().authenticate(token);
-
-                    } catch (IOException e) {
-                        throw new AuthenticationServiceException(e.getMessage(), e);
-                    }
-                }
-                return super.attemptAuthentication(request, response);
-            }
-        };
-
-        filter.setFilterProcessesUrl("/api/login");
-        filter.setAuthenticationManager(authenticationManager);
-
-        filter.setAuthenticationSuccessHandler((req, res, auth) -> {
-            res.setStatus(HttpServletResponse.SC_OK);
-            res.setContentType("application/json");
-
-            var user = ((CustomUserDetails) auth.getPrincipal()).getDomainUser();
-
-            objectMapper.writeValue(
-                    res.getWriter(),
-                    new LoginSuccessResponse(user.getId(), user.getUsername(), user.getRole().name())
-            );
-        });
-
-        filter.setAuthenticationFailureHandler((req, res, ex) -> {
-            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            res.setContentType("application/json");
-            objectMapper.writeValue(
-                    res.getWriter(),
-                    Map.of("error", ex.getMessage())
-            );
-        });
-
-        return filter;
-    }
+//    @Bean
+//    public UsernamePasswordAuthenticationFilter jsonUsernamePasswordAuthenticationFilter(
+//            AuthenticationManager authenticationManager, ObjectMapper objectMapper) {
+//
+//        var filter = new UsernamePasswordAuthenticationFilter() {
+//            @Override
+//            public Authentication attemptAuthentication(
+//                    HttpServletRequest request, HttpServletResponse response) {
+//
+//                if (request.getContentType() != null &&
+//                        request.getContentType().startsWith("application/json")) {
+//
+//                    try (var is = request.getInputStream()) {
+//                        var mapper  = new ObjectMapper();
+//                        var dto     = mapper.readValue(is, LoginRequest.class);
+//                        var token   = new UsernamePasswordAuthenticationToken(
+//                                dto.getUsername(), dto.getPassword());
+//
+//                        setDetails(request, token);
+//                        return this.getAuthenticationManager().authenticate(token);
+//
+//                    } catch (IOException e) {
+//                        throw new AuthenticationServiceException(e.getMessage(), e);
+//                    }
+//                }
+//                return super.attemptAuthentication(request, response);
+//            }
+//        };
+//
+//        filter.setFilterProcessesUrl("/api/login");
+//        filter.setAuthenticationManager(authenticationManager);
+//
+//        filter.setAuthenticationSuccessHandler((req, res, auth) -> {
+//            res.setStatus(HttpServletResponse.SC_OK);
+//            res.setContentType("application/json");
+//
+//            var user = ((CustomUserDetails) auth.getPrincipal()).getDomainUser();
+//
+//            objectMapper.writeValue(
+//                    res.getWriter(),
+//                    new LoginSuccessResponse(user.getId(), user.getUsername(), user.getRole().name())
+//            );
+//        });
+//
+//        filter.setAuthenticationFailureHandler((req, res, ex) -> {
+//            res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//            res.setContentType("application/json");
+//            objectMapper.writeValue(
+//                    res.getWriter(),
+//                    Map.of("error", ex.getMessage())
+//            );
+//        });
+//
+//        return filter;
+//    }
 }

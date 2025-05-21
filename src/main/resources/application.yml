@@ -2,7 +2,7 @@ server:
   servlet:
     session:
       cookie:
-        same-site: None
+        same-site: lax
 
 spring:
   security:
@@ -15,3 +15,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+logging:
+  level:
+    org.springframework.security: DEBUG

@@ -3,6 +3,7 @@ package org.ekujo.gesellschaft.persona.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.ekujo.gesellschaft.persona.domain.Persona;
 import org.ekujo.gesellschaft.persona.dto.PersonaDetailDto;
+import org.ekujo.gesellschaft.persona.dto.PersonaSummaryDto;
 import org.ekujo.gesellschaft.persona.exception.PersonaErrorCode;
 import org.ekujo.gesellschaft.persona.exception.PersonaException;
 import org.ekujo.gesellschaft.persona.mapper.PersonaMapper;
@@ -33,9 +34,9 @@ public class PersonaServiceImpl implements PersonaService {
         return byCharacterId.stream().map(personaMapper::toDto).collect(Collectors.toList());
     }
 
-    public List<PersonaDetailDto> getAllPersonaDetails(int page, int size) {
+    public List<PersonaSummaryDto> getAllPersonaDetails(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         List<Persona> personaList = personaRepository.findAll(pageable).getContent();
-        return personaList.stream().map(personaMapper::toDto).collect(Collectors.toList());
+        return personaList.stream().map(personaMapper::toSummaryDto).collect(Collectors.toList());
     }
 }

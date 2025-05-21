@@ -2,6 +2,7 @@ package org.ekujo.gesellschaft.persona.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.ekujo.gesellschaft.persona.dto.PersonaDetailDto;
+import org.ekujo.gesellschaft.persona.dto.PersonaSummaryDto;
 import org.ekujo.gesellschaft.persona.service.PersonaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +28,9 @@ public class PersonaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PersonaDetailDto>> getPersonas(@RequestParam int page, @RequestParam int size) {
-        List<PersonaDetailDto> personaDetailDtoList = personaService.getAllPersonaDetails(page, size);
-        return ResponseEntity.ok(personaDetailDtoList);
+    public ResponseEntity<List<PersonaSummaryDto>> getPersonas(@RequestParam int page, @RequestParam int size) {
+        List<PersonaSummaryDto> personaSummaryDtoList = personaService.getAllPersonaDetails(page, size);
+        return ResponseEntity.ok(personaSummaryDtoList);
     }
 
 }

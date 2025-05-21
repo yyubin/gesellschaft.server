@@ -1,4 +1,12 @@
+server:
+  servlet:
+    session:
+      cookie:
+        same-site: None
+
 spring:
+  security:
+    debug: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/gesellschaft

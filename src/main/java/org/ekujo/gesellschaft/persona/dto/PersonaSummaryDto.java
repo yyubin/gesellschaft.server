@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class PersonaSummaryDto {
     private Integer id;
     private String name;
-    private String characterName;
+    private CharacterDto characterName;
     private Integer rarity;
     private Integer health;
     private String season;

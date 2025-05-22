@@ -1,6 +1,7 @@
 package org.ekujo.gesellschaft.persona.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.ekujo.gesellschaft.base.dto.PageResultDto;
 import org.ekujo.gesellschaft.persona.dto.PersonaDetailDto;
 import org.ekujo.gesellschaft.persona.dto.PersonaSummaryDto;
 import org.ekujo.gesellschaft.persona.service.PersonaService;
@@ -28,8 +29,8 @@ public class PersonaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PersonaSummaryDto>> getPersonas(@RequestParam int page, @RequestParam int size) {
-        List<PersonaSummaryDto> personaSummaryDtoList = personaService.getAllPersonaDetails(page, size);
+    public ResponseEntity<PageResultDto<PersonaSummaryDto>> getPersonas(@RequestParam int page, @RequestParam int size) {
+        PageResultDto<PersonaSummaryDto> personaSummaryDtoList = personaService.getAllPersonaDetails(page, size);
         return ResponseEntity.ok(personaSummaryDtoList);
     }
 

@@ -1,6 +1,7 @@
 package org.ekujo.gesellschaft.persona.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.ekujo.gesellschaft.base.dto.PageResultDto;
 import org.ekujo.gesellschaft.persona.domain.Persona;
 import org.ekujo.gesellschaft.persona.dto.PersonaDetailDto;
 import org.ekujo.gesellschaft.persona.dto.PersonaSummaryDto;
@@ -9,6 +10,7 @@ import org.ekujo.gesellschaft.persona.exception.PersonaException;
 import org.ekujo.gesellschaft.persona.mapper.PersonaMapper;
 import org.ekujo.gesellschaft.persona.respository.PersonaRepository;
 import org.ekujo.gesellschaft.persona.service.PersonaService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -34,9 +36,20 @@ public class PersonaServiceImpl implements PersonaService {
         return byCharacterId.stream().map(personaMapper::toDto).collect(Collectors.toList());
     }
 
-    public List<PersonaSummaryDto> getAllPersonaDetails(int page, int size) {
+    public PageResultDto<PersonaSummaryDto> getAllPersonaDetails(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        List<Persona> personaList = personaRepository.findAll(pageable).getContent();
-        return personaList.stream().map(personaMapper::toSummaryDto).collect(Collectors.toList());
+        Page<Persona> personaPage = personaRepository.findAll(pageable);
+
+        List<PersonaSummaryDto> content = personaPage
+                .getContent()
+                .stream()
+                .map(personaMapper::toSummaryDto)
+                .collect(Collectors.toList());
+
+        return PageResultDto.<PersonaSummaryDto>builder()
+                .content(content)
+                .totalPages(personaPage.getTotalPages())
+                .totalElements(personaPage.getTotalElements())
+                .build();
     }
 }

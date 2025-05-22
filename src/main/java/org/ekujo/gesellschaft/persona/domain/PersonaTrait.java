@@ -6,7 +6,7 @@ import lombok.*;
 @Entity
 @Table(name = "persona_trait")
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class PersonaTrait {
 
@@ -21,5 +21,12 @@ public class PersonaTrait {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trait_id", nullable = false)
+    @Setter
     private Trait trait;
+
+    @Builder
+    public PersonaTrait(Persona persona, Trait trait) {
+        this.persona = persona;
+        this.trait = trait;
+    }
 }

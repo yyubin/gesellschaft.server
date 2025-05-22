@@ -24,4 +24,8 @@ public class GameCharacterServiceImpl implements GameCharacterService {
         List<GameCharacter> all = gameCharacterRepository.findAll();
         return all.stream().map(gameCharacterMapper::toDto).collect(Collectors.toList());
     }
+
+    public GameCharacter findById(Long id) {
+        return gameCharacterRepository.findById(id).orElse(null);
+    }
 }

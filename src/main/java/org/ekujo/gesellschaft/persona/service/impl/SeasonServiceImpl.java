@@ -22,6 +22,10 @@ public class SeasonServiceImpl implements SeasonService {
     private final SeasonRepository seasonRepository;
     private final SeasonMapper seasonMapper;
 
+    public Season findById(Long id) {
+        return seasonRepository.findById(id).orElse(null);
+    }
+
     public List<SeasonDto> findAll() {
         List<Season> seasons = seasonRepository.findAll();
         return seasons.stream().map(seasonMapper::toDto).collect(Collectors.toList());

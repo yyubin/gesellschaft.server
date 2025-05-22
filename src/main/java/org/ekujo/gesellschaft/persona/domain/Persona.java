@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.ekujo.gesellschaft.character.domain.GameCharacter;
 import org.ekujo.gesellschaft.persona.dto.request.PersonaImageRequest;
+import org.ekujo.gesellschaft.persona.dto.request.PersonaUpdateRequest;
 import org.ekujo.gesellschaft.skill.domain.ActiveSkill;
 import org.ekujo.gesellschaft.skill.domain.SinProperty;
 
@@ -80,6 +81,7 @@ public class Persona {
             Season season,
             LocalDateTime releaseDate,
             int mental,
+            DisturbedSet disturbed,
             List<ActiveSkill> activeSkills,
             List<PersonaTrait> traits
     ) {
@@ -96,16 +98,17 @@ public class Persona {
         persona.season = season;
         persona.releaseDate = releaseDate;
         persona.mental = mental;
+        persona.disturbed = disturbed;
 
         persona.traits = new ArrayList<>();
         for (PersonaTrait trait : traits) {
-            trait.setPersona(persona); // 연관관계 주입
+            trait.setPersona(persona);
             persona.traits.add(trait);
         }
 
         persona.activeSkills = new ArrayList<>();
         for (ActiveSkill skill : activeSkills) {
-            skill.setPersona(persona); // 연관관계 주입
+            skill.setPersona(persona);
             persona.activeSkills.add(skill);
         }
 
@@ -115,6 +118,7 @@ public class Persona {
 
         return persona;
     }
+
 
     public void setPersonaImage(PersonaImage image) {
         this.personaImage = image;
@@ -129,5 +133,36 @@ public class Persona {
             case SD -> personaImage.setImageSd(personaImageRequest.getImageUrl());
         }
     }
+
+    public void updatePersona(PersonaUpdateRequest req, GameCharacter character, Season season, List<PersonaTrait> newTraits) {
+        this.character = character;
+        this.name = req.getName();
+        this.rarity = req.getRarity();
+        this.health = req.getHealth();
+        this.mental = req.getMental();
+        this.minSpeed = req.getMinSpeed();
+        this.maxSpeed = req.getMaxSpeed();
+        this.guardLevel = req.getGuardLevel();
+        this.season = season;
+        this.releaseDate = req.getReleaseDate();
+
+        // Resistance
+        PersonaUpdateRequest.ResistanceDto r = req.getResistance();
+        this.resistance = new ResistanceSet(ResistanceLevel.fromString(r.getAttack()),
+                ResistanceLevel.fromString(r.getPenetration()),
+                ResistanceLevel.fromString(r.getBatting()));
+
+        // Disturbed
+        PersonaUpdateRequest.DisturbedSetDto d = req.getDisturbed();
+        this.disturbed = new DisturbedSet(d.getDisturbed1(), d.getDisturbed2(), d.getDisturbed3());
+
+        // Traits (연관관계 재설정)
+        this.traits.clear();
+        for (PersonaTrait trait : newTraits) {
+            trait.setPersona(this);
+            this.traits.add(trait);
+        }
+    }
+
 
 }

@@ -50,6 +50,7 @@ public class ActiveSkill {
     @Column(name = "attack_level")
     private int attackLevel;
 
+    @Setter
     @Column(columnDefinition = "TEXT")
     private String skillImage;
 
@@ -65,4 +66,5 @@ public class ActiveSkill {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
 }

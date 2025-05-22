@@ -29,13 +29,13 @@ public class TraitServiceImpl implements TraitService {
     }
 
     @Transactional
-    public TraitResponse createKeyword(String traitName) {
+    public TraitResponse createTrait(String traitName) {
         Trait save = traitRepository.save(Trait.builder().name(traitName).build());
         return traitMapper.toResponse(save);
     }
 
     @Transactional
-    public TraitResponse updateKeyword(Long traitId, String updatedTraitName) {
+    public TraitResponse updateTrait(Long traitId, String updatedTraitName) {
         Trait save = traitRepository.findById(traitId).orElseThrow(() -> new NoSuchElementException("Trait not found"));
         save.setName(updatedTraitName);
         return traitMapper.toResponse(traitRepository.save(save));

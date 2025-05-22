@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface TraitService {
     List<TraitResponse> findAll();
-    TraitResponse createKeyword(String traitName);
-    TraitResponse updateKeyword(Long traitId, String updatedTraitName);
+    TraitResponse createTrait(String traitName);
+    TraitResponse updateTrait(Long traitId, String updatedTraitName);
 }

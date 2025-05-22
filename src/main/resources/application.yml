@@ -11,6 +11,8 @@ aws:
     secret-key: ${AWS_S3_SECRET_KEY}
 
 spring:
+  config:
+    import: optional:file:.env[.properties]
   security:
     debug: true
   datasource:

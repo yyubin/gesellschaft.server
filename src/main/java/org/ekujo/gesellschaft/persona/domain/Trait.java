@@ -11,6 +11,7 @@ import lombok.*;
 public class Trait {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "trait_name", nullable = false, length = 20)

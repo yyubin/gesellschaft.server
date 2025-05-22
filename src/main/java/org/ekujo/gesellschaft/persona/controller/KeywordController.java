@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.ekujo.gesellschaft.persona.domain.Keyword;
+import org.ekujo.gesellschaft.persona.dto.request.KeywordCreateRequest;
+import org.ekujo.gesellschaft.persona.dto.request.KeywordUpdateRequest;
 import org.ekujo.gesellschaft.persona.dto.response.KeywordResponse;
 import org.ekujo.gesellschaft.persona.service.KeywordService;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +26,14 @@ public class KeywordController {
     }
 
     @PutMapping
-    public ResponseEntity<KeywordResponse> update(@RequestBody Long id, @RequestBody String keywordName) {
-        KeywordResponse keywordResponse = keywordService.updateKeyword(id, keywordName);
+    public ResponseEntity<KeywordResponse> update(@RequestBody KeywordUpdateRequest keywordUpdateRequest) {
+        KeywordResponse keywordResponse = keywordService.updateKeyword(keywordUpdateRequest.getId(), keywordUpdateRequest.getKeywordName());
         return ResponseEntity.ok(keywordResponse);
     }
 
     @PostMapping
-    public ResponseEntity<KeywordResponse> add(String keywordName) {
-        KeywordResponse keyword = keywordService.createKeyword(keywordName);
+    public ResponseEntity<KeywordResponse> add(@RequestBody KeywordCreateRequest keywordCreateRequest) {
+        KeywordResponse keyword = keywordService.createKeyword(keywordCreateRequest.getKeywordName());
         return ResponseEntity.ok(keyword);
     }
 

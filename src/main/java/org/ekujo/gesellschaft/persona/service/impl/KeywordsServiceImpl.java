@@ -1,6 +1,7 @@
 package org.ekujo.gesellschaft.persona.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.ekujo.gesellschaft.persona.domain.Keyword;
 import org.ekujo.gesellschaft.persona.dto.response.KeywordResponse;
 import org.ekujo.gesellschaft.persona.mapper.KeywordMapper;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class KeywordsServiceImpl implements KeywordService {
     private final KeywordRepository keywordRepository;
     private final KeywordMapper keywordMapper;
@@ -27,6 +29,7 @@ public class KeywordsServiceImpl implements KeywordService {
 
     @Transactional
     public KeywordResponse createKeyword(String keywordName) {
+        log.info("creating keyword " + keywordName);
         Keyword save = keywordRepository.save(Keyword.builder().name(keywordName).build());
         return keywordMapper.toKeywordResponse(save);
     }

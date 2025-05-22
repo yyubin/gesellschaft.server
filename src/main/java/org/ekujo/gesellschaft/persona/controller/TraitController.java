@@ -1,6 +1,8 @@
 package org.ekujo.gesellschaft.persona.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.ekujo.gesellschaft.persona.dto.request.TraitCreateRequest;
+import org.ekujo.gesellschaft.persona.dto.request.TraitUpdateRequest;
 import org.ekujo.gesellschaft.persona.dto.response.KeywordResponse;
 import org.ekujo.gesellschaft.persona.dto.response.TraitResponse;
 import org.ekujo.gesellschaft.persona.service.KeywordService;
@@ -23,14 +25,14 @@ public class TraitController {
     }
 
     @PutMapping
-    public ResponseEntity<TraitResponse> update(@RequestBody Long id, @RequestBody String traitName) {
-        TraitResponse traitResponse = traitService.updateTrait(id, traitName);
+    public ResponseEntity<TraitResponse> update(@RequestBody TraitUpdateRequest traitUpdateRequest) {
+        TraitResponse traitResponse = traitService.updateTrait(traitUpdateRequest.getId(), traitUpdateRequest.getTraitName());
         return ResponseEntity.ok(traitResponse);
     }
 
     @PostMapping
-    public ResponseEntity<TraitResponse> add(String traitName) {
-        TraitResponse traitResponse = traitService.createTrait(traitName);
+    public ResponseEntity<TraitResponse> add(@RequestBody TraitCreateRequest traitCreateRequest) {
+        TraitResponse traitResponse = traitService.createTrait(traitCreateRequest.getTraitName());
         return ResponseEntity.ok(traitResponse);
     }
 

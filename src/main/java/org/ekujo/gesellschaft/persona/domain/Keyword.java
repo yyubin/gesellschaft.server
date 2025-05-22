@@ -11,6 +11,7 @@ import lombok.*;
 public class Keyword {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "keyword_name", nullable = false, length = 10)

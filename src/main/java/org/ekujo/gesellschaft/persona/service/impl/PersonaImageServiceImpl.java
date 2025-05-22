@@ -21,6 +21,7 @@ public class PersonaImageServiceImpl implements PersonaImageService {
     private final PersonaService personaService;
     private final PersonaImageCommandService personaImageCommandService;
 
+    @Transactional
     public PersonaImageResponse getPersonaImageById(Long id) {
         Persona personaById = personaService.getPersonaById(id);
         if (personaById.getPersonaImage() == null) {

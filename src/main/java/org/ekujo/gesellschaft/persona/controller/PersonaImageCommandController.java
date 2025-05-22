@@ -20,9 +20,11 @@ public class PersonaImageCommandController {
     @PostMapping("/presign")
     public ResponseEntity<String> getPresignedUrl(
             @RequestParam String fileName,
-            @RequestParam String type
+            @RequestParam String type,
+            @RequestParam Long personaId,
+            @RequestParam String characterName
     ) {
-        String url = s3Service.generatePresignedUrl(fileName, type);
+        String url = s3Service.generatePresignedUrlforPersonaImages(fileName, type, characterName, personaId);
         return ResponseEntity.ok(url);
     }
 

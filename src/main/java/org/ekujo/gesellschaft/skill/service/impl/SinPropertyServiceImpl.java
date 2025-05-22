@@ -23,6 +23,10 @@ public class SinPropertyServiceImpl implements SinPropertyService {
     private final SinPropertyRepository sinPropertyRepository;
     private final SinPropertyMapper sinPropertyMapper;
 
+    public SinProperty findById(Long id) {
+        return sinPropertyRepository.findById(id).orElse(null);
+    }
+
     public List<SinPropertyResponse> findAll() {
         List<SinProperty> sinPropertyList = sinPropertyRepository.findAll();
         return sinPropertyList.stream().map(sinPropertyMapper::toResponse).collect(Collectors.toList());

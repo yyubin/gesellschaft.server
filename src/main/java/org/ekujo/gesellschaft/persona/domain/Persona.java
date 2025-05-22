@@ -10,7 +10,11 @@ import org.ekujo.gesellschaft.character.domain.GameCharacter;
 import org.ekujo.gesellschaft.persona.dto.request.PersonaImageRequest;
 import org.ekujo.gesellschaft.persona.dto.request.PersonaUpdateRequest;
 import org.ekujo.gesellschaft.skill.domain.ActiveSkill;
+import org.ekujo.gesellschaft.skill.domain.AttackType;
+import org.ekujo.gesellschaft.skill.domain.DamageSpec;
 import org.ekujo.gesellschaft.skill.domain.SinProperty;
+import org.ekujo.gesellschaft.skill.dto.ActiveSkillDto;
+import org.ekujo.gesellschaft.skill.dto.request.ActiveSkillCreateRequest;
 
 import static org.ekujo.gesellschaft.persona.domain.PersonaImageType.*;
 
@@ -117,6 +121,30 @@ public class Persona {
         persona.personaImage = image;
 
         return persona;
+    }
+
+    public ActiveSkill addActiveSkill(ActiveSkillCreateRequest request, SinProperty sinProperty) {
+        DamageSpec damageSpec = DamageSpec.builder()
+                .basePower(request.getDamageSpec().getBasePower())
+                .coinCount(request.getDamageSpec().getCoinCount())
+                .coinPower(request.getDamageSpec().getCoinPower())
+                .weight(request.getDamageSpec().getWeight())
+                .build();
+
+        ActiveSkill newActiveSkill = ActiveSkill.builder()
+                .persona(this)
+                .sinProperty(sinProperty)
+                .skillIndex(request.getSkillIndex())
+                .skillName(request.getSkillName())
+                .attackType(AttackType.valueOf(request.getAttackType().toUpperCase()))
+                .syncLevel(request.getSyncLevel())
+                .quantity(request.getQuantity())
+                .attackLevel(request.getAttackLevel())
+                .damageSpec(damageSpec)
+                .build();
+
+        activeSkills.add(newActiveSkill);
+        return newActiveSkill;
     }
 
 

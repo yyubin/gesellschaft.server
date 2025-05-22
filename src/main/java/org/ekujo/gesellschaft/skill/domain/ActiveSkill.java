@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.ekujo.gesellschaft.persona.domain.Persona;
 
 import java.time.LocalDateTime;
@@ -20,6 +21,7 @@ public class ActiveSkill {
 
     @ManyToOne
     @JoinColumn(name = "persona_id", nullable = false)
+    @Setter
     private Persona persona;
 
     @Column(name = "sync_level")

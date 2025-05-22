@@ -16,6 +16,7 @@ public class PersonaTrait {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "persona_id", nullable = false)
+    @Setter
     private Persona persona;
 
     @ManyToOne(fetch = FetchType.LAZY)

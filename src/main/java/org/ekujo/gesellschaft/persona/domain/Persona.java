@@ -64,6 +64,54 @@ public class Persona {
     @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
     private PersonaImage personaImage = new PersonaImage();
 
+    public static Persona create(
+            GameCharacter character,
+            String name,
+            int rarity,
+            int health,
+            int minSpeed,
+            int maxSpeed,
+            int guardLevel,
+            ResistanceSet resistance,
+            String season,
+            LocalDateTime releaseDate,
+            int mental,
+            List<ActiveSkill> activeSkills,
+            List<PersonaTrait> traits
+    ) {
+        Persona persona = new Persona();
+
+        persona.character = character;
+        persona.name = name;
+        persona.rarity = rarity;
+        persona.health = health;
+        persona.minSpeed = minSpeed;
+        persona.maxSpeed = maxSpeed;
+        persona.guardLevel = guardLevel;
+        persona.resistance = resistance;
+        persona.season = season;
+        persona.releaseDate = releaseDate;
+        persona.mental = mental;
+
+        persona.traits = new ArrayList<>();
+        for (PersonaTrait trait : traits) {
+            trait.setPersona(persona); // 연관관계 주입
+            persona.traits.add(trait);
+        }
+
+        persona.activeSkills = new ArrayList<>();
+        for (ActiveSkill skill : activeSkills) {
+            skill.setPersona(persona); // 연관관계 주입
+            persona.activeSkills.add(skill);
+        }
+
+        PersonaImage image = new PersonaImage();
+        image.setPersona(persona);
+        persona.personaImage = image;
+
+        return persona;
+    }
+
     public void setPersonaImage(PersonaImage image) {
         this.personaImage = image;
         image.setPersona(this);

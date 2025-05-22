@@ -15,8 +15,8 @@ public class PersonaCommandController {
 
     private final PersonaCommandService personaCommandService;
 
-    @PutMapping
-    public ResponseEntity<PersonaDetailDto> updatePersona(@RequestBody PersonaUpdateRequest personaUpdateRequest) {
+    @PutMapping("/{id}")
+    public ResponseEntity<PersonaDetailDto> updatePersona(@PathVariable Long id, @RequestBody PersonaUpdateRequest personaUpdateRequest) {
         return ResponseEntity.ok(personaCommandService.updatePersona(personaUpdateRequest));
     }
 

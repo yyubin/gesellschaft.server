@@ -13,5 +13,5 @@ public class SkillImageResponse {
     private PersonaDto persona;
     private String skillName;
     private String skillIndex;
-    private String imageUrl;
+    private String skillImage;
 }

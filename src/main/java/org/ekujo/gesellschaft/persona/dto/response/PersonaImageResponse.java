@@ -17,7 +17,7 @@ public class PersonaImageResponse {
     private PersonaDto persona;
     private CharacterDto character;
     private String imageA;
-    private String imageAd;
+    private String imageAc;
     private String imageSd;
 
 }

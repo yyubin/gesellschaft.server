@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { SeasonMapper.class })
 public interface PersonaMapper {
     @Mapping(target = "traits", expression = "java(mapTraits(entity.getTraits()))")
     PersonaDetailDto toDto(Persona entity);

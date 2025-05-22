@@ -6,5 +6,9 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface SeasonMapper {
+    default String map(Season season) {
+        return season != null ? season.getName() : null;
+    }
+
     SeasonDto toDto(Season season);
 }

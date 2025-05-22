@@ -28,6 +28,8 @@ public class PersonaDetailDto {
     private LocalDateTime releaseDate;
     private Integer mental;
 
+    private DisturbedSetDto disturbed;
+
     private List<TraitDto> traits;
     private List<ActiveSkillDto> activeSkills;
 
@@ -87,5 +89,13 @@ public class PersonaDetailDto {
         private Integer coinPower;
         private Integer coinCount;
         private Integer weight;
+    }
+
+    @Getter
+    @Builder
+    public static class DisturbedSetDto {
+        private Long disturbed1;
+        private Long disturbed2;
+        private Long disturbed3;
     }
 }

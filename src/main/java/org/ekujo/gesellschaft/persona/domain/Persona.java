@@ -47,7 +47,7 @@ public class Persona {
     @Embedded
     private ResistanceSet resistance;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "season_id")
     private Season season;
 
@@ -55,6 +55,9 @@ public class Persona {
     private LocalDateTime releaseDate;
 
     private Integer mental;
+
+    @Embedded
+    private DisturbedSet disturbed;
 
     @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PersonaTrait> traits = new ArrayList<>();

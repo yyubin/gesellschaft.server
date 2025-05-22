@@ -1,6 +1,7 @@
 package org.ekujo.gesellschaft.persona.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.ekujo.gesellschaft.persona.service.S3Service;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
@@ -11,7 +12,7 @@ import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
-public class S3ServiceImpl {
+public class S3ServiceImpl implements S3Service {
 
     private final S3Presigner s3Presigner;
 

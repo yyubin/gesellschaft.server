@@ -2,6 +2,7 @@ package org.ekujo.gesellschaft.persona.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.ekujo.gesellschaft.persona.dto.request.PersonaImageRequest;
+import org.ekujo.gesellschaft.persona.service.PersonaImageCommandService;
 import org.ekujo.gesellschaft.persona.service.PersonaService;
 import org.ekujo.gesellschaft.persona.service.S3Service;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class PersonaImageCommandController {
 
     private final S3Service s3Service;
+    private final PersonaImageCommandService personaImageCommandService;
 
 
     @PostMapping("/presign")
@@ -24,9 +26,9 @@ public class PersonaImageCommandController {
         return ResponseEntity.ok(url);
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Void> saveImageInfo(@RequestBody PersonaImageRequest dto) {
-        personaImageService.save(dto);
+        personaImageCommandService.save(dto);
         return ResponseEntity.ok().build();
     }
 }

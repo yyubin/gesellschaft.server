@@ -22,9 +22,10 @@ public class PersonaImageCommandController {
             @RequestParam String fileName,
             @RequestParam String type,
             @RequestParam Long personaId,
-            @RequestParam String characterName
+            @RequestParam String characterName,
+            @RequestParam String contentType
     ) {
-        String url = s3Service.generatePresignedUrlforPersonaImages(fileName, type, characterName, personaId);
+        String url = s3Service.generatePresignedUrlforPersonaImages(fileName, type, characterName, personaId, contentType);
         return ResponseEntity.ok(url);
     }
 

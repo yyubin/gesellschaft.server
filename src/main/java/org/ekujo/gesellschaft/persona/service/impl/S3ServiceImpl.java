@@ -18,14 +18,14 @@ public class S3ServiceImpl implements S3Service {
     private final S3Presigner s3Presigner;
     private final S3Properties s3Properties;
 
-    public String generatePresignedUrlforPersonaImages(String fileName, String type, String characterName, Long personaId) {
+    public String generatePresignedUrlforPersonaImages(String fileName, String type, String characterName, Long personaId, String contentType) {
         String key = "character/gallery/" + characterName + "/id_" + personaId +
                 "/id_" + personaId + "_" + type + "_" + fileName;
 
         PutObjectRequest objectRequest = PutObjectRequest.builder()
                 .bucket(s3Properties.getBucket())
                 .key(key)
-                .contentType("image/jpeg")
+                .contentType(contentType)
                 .build();
 
         PutObjectPresignRequest presignRequest = PutObjectPresignRequest.builder()

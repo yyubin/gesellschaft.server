@@ -10,8 +10,15 @@ import lombok.*;
 public class SinProperty {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "name", length = 10, nullable = false)
+    @Setter
     private String name;
+
+    @Builder
+    public SinProperty(String name) {
+        this.name = name;
+    }
 }

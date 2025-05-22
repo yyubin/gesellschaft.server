@@ -14,5 +14,11 @@ public class Keyword {
     private Integer id;
 
     @Column(name = "keyword_name", nullable = false, length = 10)
+    @Setter
     private String name;
+
+    @Builder
+    public Keyword(String name) {
+        this.name = name;
+    }
 }

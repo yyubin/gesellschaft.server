@@ -14,5 +14,11 @@ public class Trait {
     private Integer id;
 
     @Column(name = "trait_name", nullable = false, length = 20)
+    @Setter
     private String name;
+
+    @Builder
+    public Trait(String name) {
+        this.name = name;
+    }
 }

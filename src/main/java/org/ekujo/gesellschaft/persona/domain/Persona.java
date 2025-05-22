@@ -47,8 +47,9 @@ public class Persona {
     @Embedded
     private ResistanceSet resistance;
 
-    @Column(length = 10)
-    private String season;
+    @ManyToOne
+    @JoinColumn(name = "season_id")
+    private Season season;
 
     @Column(name = "release_date")
     private LocalDateTime releaseDate;
@@ -73,7 +74,7 @@ public class Persona {
             int maxSpeed,
             int guardLevel,
             ResistanceSet resistance,
-            String season,
+            Season season,
             LocalDateTime releaseDate,
             int mental,
             List<ActiveSkill> activeSkills,

@@ -26,6 +26,10 @@ public class PersonaServiceImpl implements PersonaService {
     private final PersonaRepository personaRepository;
     private final PersonaMapper personaMapper;
 
+    public Persona getPersonaById(Long id) {
+        return personaRepository.findById(id).orElse(null);
+    }
+
     public PersonaDetailDto getPersonaDetail(Long id) {
         Persona persona = personaRepository.findById(id).orElseThrow(() -> new PersonaException(PersonaErrorCode.PERSONA_NOT_FOUND));
         return personaMapper.toDto(persona);

@@ -7,8 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ekujo.gesellschaft.character.domain.GameCharacter;
+import org.ekujo.gesellschaft.persona.dto.request.PersonaImageRequest;
 import org.ekujo.gesellschaft.skill.domain.ActiveSkill;
 import org.ekujo.gesellschaft.skill.domain.SinProperty;
+
+import static org.ekujo.gesellschaft.persona.domain.PersonaImageType.*;
 
 @Entity
 @Table(name = "persona")
@@ -58,5 +61,21 @@ public class Persona {
     @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ActiveSkill> activeSkills = new ArrayList<>();
 
+    @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
+    private PersonaImage personaImage = new PersonaImage();
+
+    public void setPersonaImage(PersonaImage image) {
+        this.personaImage = image;
+        image.setPersona(this);
+    }
+
+    public void updatePersonaImage(PersonaImageRequest personaImageRequest) {
+        PersonaImageType type = PersonaImageType.valueOf(personaImageRequest.getImageType());
+        switch (type) {
+            case A -> personaImage.setImageA(personaImageRequest.getImageUrl());
+            case AC -> personaImage.setImageAc(personaImageRequest.getImageUrl());
+            case SD -> personaImage.setImageSd(personaImageRequest.getImageUrl());
+        }
+    }
 
 }

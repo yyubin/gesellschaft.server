@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.ekujo.gesellschaft.persona.domain.Persona;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "active_skill")
 @Getter
@@ -45,4 +47,20 @@ public class ActiveSkill {
 
     @Column(name = "attack_level")
     private int attackLevel;
+
+    @Column(columnDefinition = "TEXT")
+    private String skillImage;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }

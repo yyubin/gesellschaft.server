@@ -38,6 +38,7 @@ public class PersonaDetailDto {
     public static class CharacterDto {
         private Integer id;
         private String name;
+        private String nameKo;
     }
 
     @Getter

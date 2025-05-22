@@ -46,6 +46,9 @@ dependencies {
 	annotationProcessor 'io.github.openfeign.querydsl:querydsl-apt:6.10.1:jpa'
 	annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
 	annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+
+	// s3
+	implementation 'software.amazon.awssdk:s3:2.20.88'
 }
 
 def generatedQuerydslDir = layout.buildDirectory.dir("generated/sources/annotationProcessor/java/main").get().asFile

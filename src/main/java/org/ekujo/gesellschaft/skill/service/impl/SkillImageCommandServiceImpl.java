@@ -1,6 +1,7 @@
 package org.ekujo.gesellschaft.skill.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.ekujo.gesellschaft.base.service.S3Service;
 import org.ekujo.gesellschaft.skill.domain.ActiveSkill;
 import org.ekujo.gesellschaft.skill.dto.request.SkillImageRequest;
 import org.ekujo.gesellschaft.skill.service.ActiveSkillService;
@@ -19,5 +20,7 @@ public class SkillImageCommandServiceImpl implements SkillImageCommandService {
         ActiveSkill activeSkillById = activeSkillService.findActiveSkillById(skillImageRequest.getId());
         activeSkillById.setSkillImage(skillImageRequest.getUrl());
     }
+
+
 
 }

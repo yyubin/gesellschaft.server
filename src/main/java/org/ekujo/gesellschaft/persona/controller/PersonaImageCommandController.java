@@ -3,8 +3,7 @@ package org.ekujo.gesellschaft.persona.controller;
 import lombok.RequiredArgsConstructor;
 import org.ekujo.gesellschaft.persona.dto.request.PersonaImageRequest;
 import org.ekujo.gesellschaft.persona.service.PersonaImageCommandService;
-import org.ekujo.gesellschaft.persona.service.PersonaService;
-import org.ekujo.gesellschaft.persona.service.S3Service;
+import org.ekujo.gesellschaft.base.service.S3Service;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

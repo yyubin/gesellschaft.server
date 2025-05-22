@@ -1,8 +1,8 @@
-package org.ekujo.gesellschaft.persona.service.impl;
+package org.ekujo.gesellschaft.base.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.ekujo.gesellschaft.base.config.S3Properties;
-import org.ekujo.gesellschaft.persona.service.S3Service;
+import org.ekujo.gesellschaft.base.service.S3Service;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
@@ -21,6 +21,25 @@ public class S3ServiceImpl implements S3Service {
     public String generatePresignedUrlforPersonaImages(String fileName, String type, String characterName, Long personaId, String contentType) {
         String key = "character/gallery/" + characterName + "/id_" + personaId +
                 "/id_" + personaId + "_" + type + "_" + fileName;
+
+        PutObjectRequest objectRequest = PutObjectRequest.builder()
+                .bucket(s3Properties.getBucket())
+                .key(key)
+                .contentType(contentType)
+                .build();
+
+        PutObjectPresignRequest presignRequest = PutObjectPresignRequest.builder()
+                .signatureDuration(Duration.ofMinutes(10))
+                .putObjectRequest(objectRequest)
+                .build();
+
+        URL presignedUrl = s3Presigner.presignPutObject(presignRequest).url();
+        return presignedUrl.toString();
+    }
+
+    public String generatePresignedUrlforActiveSkillImages(String fileName, Long skillType, String characterName, Long personaId, String contentType) {
+        String key = "character/gallery/" + characterName + "/id_" + personaId +
+                "/id_" + personaId + "_" + skillType + "_" + fileName;
 
         PutObjectRequest objectRequest = PutObjectRequest.builder()
                 .bucket(s3Properties.getBucket())

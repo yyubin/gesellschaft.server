@@ -11,5 +11,8 @@ import org.mapstruct.Mapping;
 public interface ActiveSkillMapper {
     @Mapping(source = "persona", target = "persona")
     SkillImageResponse toSkillImageResponse(ActiveSkill activeSkill);
+
+    @Mapping(source = "sinProperty.name", target = "sinPropertyName")
+    @Mapping(target = "attackType", expression = "java(activeSkill.getAttackType().getLabel())")
     ActiveSkillDto toActiveSkillDto(ActiveSkill activeSkill);
 }

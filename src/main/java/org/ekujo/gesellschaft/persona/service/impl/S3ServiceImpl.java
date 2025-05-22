@@ -1,6 +1,7 @@
 package org.ekujo.gesellschaft.persona.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.ekujo.gesellschaft.base.config.S3Properties;
 import org.ekujo.gesellschaft.persona.service.S3Service;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
@@ -15,14 +16,13 @@ import java.time.Duration;
 public class S3ServiceImpl implements S3Service {
 
     private final S3Presigner s3Presigner;
-
-    private final String bucketName = "gesellschaft";
+    private final S3Properties s3Properties;
 
     public String generatePresignedUrl(String fileName, String type) {
         String key = "persona/" + type + "/" + fileName;
 
         PutObjectRequest objectRequest = PutObjectRequest.builder()
-                .bucket(bucketName)
+                .bucket(s3Properties.getBucket())
                 .key(key)
                 .contentType("image/jpeg")
                 .build();

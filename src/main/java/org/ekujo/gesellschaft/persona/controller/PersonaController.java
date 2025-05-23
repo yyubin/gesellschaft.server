@@ -29,8 +29,14 @@ public class PersonaController {
     }
 
     @GetMapping
-    public ResponseEntity<PageResultDto<PersonaSummaryDto>> getPersonas(@RequestParam int page, @RequestParam int size) {
-        PageResultDto<PersonaSummaryDto> personaSummaryDtoList = personaService.getAllPersonaDetails(page, size);
+    public ResponseEntity<PageResultDto<PersonaSummaryDto>> getPersonas(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Long characterId
+    ) {
+        PageResultDto<PersonaSummaryDto> personaSummaryDtoList = personaService.getAllPersonaDetails(page, size, sortBy, name, characterId);
         return ResponseEntity.ok(personaSummaryDtoList);
     }
 

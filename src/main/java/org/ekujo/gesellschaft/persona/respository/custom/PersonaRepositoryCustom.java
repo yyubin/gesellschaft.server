@@ -14,4 +14,5 @@ public interface PersonaRepositoryCustom {
             List<String> attackTypes,
             Pageable pageable
     );
+    Page<Persona> findAllWithFilters(String name, Long characterId, Pageable pageable);
 }

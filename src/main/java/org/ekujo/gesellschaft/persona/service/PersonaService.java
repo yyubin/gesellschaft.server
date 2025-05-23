@@ -12,4 +12,5 @@ public interface PersonaService {
     PersonaDetailDto getPersonaDetail(Long id);
     List<PersonaDetailDto> getPersonaDetailsByCharacterId(Long characterId);
     PageResultDto<PersonaSummaryDto> getAllPersonaDetails(int page, int size);
+    PageResultDto<PersonaSummaryDto> getAllPersonaDetails(int page, int size, String sortBy, String name, Long characterId);
 }

@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DOCKER_IMAGE: your-dockerhub-username/gesellschaft
+      DOCKER_IMAGE: cassidy65/gesellschaft
 
     steps:
       - name: Checkout source

@@ -11,6 +11,7 @@ jobs:
 
     env:
       DOCKER_IMAGE: cassidy65/gesellschaft
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v3
@@ -31,33 +32,13 @@ jobs:
           push: true
           tags: ${{ env.DOCKER_IMAGE }}:latest
 
-      # STEP: Save .env.prod from secret to file
-      - name: Save .env.prod from secret
-        run: echo "${{ secrets.AWS_ENV_PROD }}" > .env.prod
-
-      # STEP: Upload .env.prod to EC2
-      - name: Upload .env.prod to EC2
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: ".env.prod"
-          target: "/home/ubuntu/.env.prod"
-
-      # STEP: SSH into EC2 and redeploy container
-      - name: Deploy to EC2 via SSH
+      - name: Deploy via docker-compose on EC2
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker stop gesellschaft || true
-            docker rm gesellschaft || true
-            docker pull ${{ env.DOCKER_IMAGE }}:latest
-            docker run -d \
-              --name gesellschaft \
-              --env-file /home/ubuntu/.env.prod \
-              -p 8080:8080 \
-              ${{ env.DOCKER_IMAGE }}:latest
+            cd /home/ubuntu   
+            docker compose pull
+            docker compose up -d

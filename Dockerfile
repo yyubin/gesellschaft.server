@@ -1,7 +1,7 @@
 FROM gradle:8.4.0-jdk21 AS builder
 WORKDIR /app
 
-COPY build.gradle.kts settings.gradle.kts ./
+COPY build.gradle settings.gradle ./
 COPY gradle ./gradle
 RUN gradle build -x test --no-daemon || return 0
 
